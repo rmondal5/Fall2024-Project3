@@ -1,0 +1,72 @@
+/* styles.css */
+
+/* General body styles */
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f9f9f9;
+    margin: 0;
+    padding: 20px;
+}
+
+/* Container for the main content */
+.container {
+    max-width: 800px;
+    margin: auto;
+    background-color: white;
+    padding: 20px;
+    border-radius: 5px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+/* Styles for the actor's name */
+.actor-name {
+    font-size: 24px;
+    font-weight: bold;
+    color: #333;
+}
+
+/* Styles for the biography section */
+.actor-biography {
+    margin-top: 15px;
+    line-height: 1.6;
+}
+
+/* Styles for the loading spinner */
+#loadingSpinner {
+    display: none;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 24px;
+    color: #007bff;
+}
+
+/* Styles for tweets container */
+#tweetsContainer {
+    margin-top: 20px;
+}
+
+/* Individual tweet styles */
+.tweet {
+    background-color: #f1f1f1;
+    border: 1px solid #ccc;
+    border-radius: 3px;
+    padding: 10px;
+    margin-bottom: 10px;
+}
+
+/* Button styles */
+button {
+    padding: 10px 15px;
+    color: white;
+    background-color: #007bff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+    /* Button hover effect */
+    button:hover {
+        background-color: #0056b3;
+    }

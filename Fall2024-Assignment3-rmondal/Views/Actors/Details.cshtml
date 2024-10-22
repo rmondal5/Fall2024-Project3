@@ -1,0 +1,43 @@
+﻿@model Fall2024_Assignment3_rmondal.ViewModels.ActorDetailsViewModel
+
+<h1>@Model.Actor.Name</h1>
+<p>
+    <strong>Age:</strong> @Model.Actor.Age <br />
+    <strong>Gender:</strong> @Model.Actor.Gender <br />
+    <strong>IMDB:</strong> <a href="@Model.Actor.IMDBLink" target="_blank">IMDB Link</a> <br />
+    <strong>Photo:</strong> <img src="@Model.Actor.Photo" alt="@Model.Actor.Name Photo" />
+</p>
+
+<h2>Movies</h2>
+<ul>
+    @foreach (var movie in Model.Movies)
+    {
+        <li>@movie.Title</li>
+    }
+</ul>
+
+<h2>AI Generated Tweets</h2>
+<table class="table">
+    <thead>
+        <tr>
+            <th>Tweet</th>
+            <th>Sentiment</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var tweet in Model.Tweets)
+        {
+            <tr>
+                <td>@tweet.Tweet</td>
+                <td>@tweet.Sentiment</td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+<h3>Overall Sentiment: @Model.OverallSentiment</h3>
+
+<div>
+    <a asp-action="Edit" asp-route-id="@Model.Actor.Id" class="btn btn-warning">Edit</a> |
+    <a asp-action="Index" class="btn btn-secondary">Back to List</a>
+</div>
