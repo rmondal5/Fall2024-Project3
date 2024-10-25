@@ -15,6 +15,7 @@
             <th>Title</th>
             <th>Genre</th>
             <th>Year</th>
+            <th>Poster</th>
             <th></th>
         </tr>
     </thead>
@@ -25,6 +26,7 @@
                 <td>@Html.DisplayFor(modelItem => item.Title)</td>
                 <td>@Html.DisplayFor(modelItem => item.Genre)</td>
                 <td>@Html.DisplayFor(modelItem => item.Year)</td>
+                <td><img src="@item.Poster" alt="@item.Title" style="width: 50px; height: auto;" /></td>
                 <td>
                     <a asp-action="Edit" asp-route-id="@item.Id" class="btn btn-warning">Edit</a> |
                     <a asp-action="Details" asp-route-id="@item.Id" class="btn btn-info">Details</a> |

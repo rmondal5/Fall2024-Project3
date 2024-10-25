@@ -5,16 +5,17 @@
     <strong>Genre:</strong> @Model.Movie.Genre <br />
     <strong>Year:</strong> @Model.Movie.Year <br />
     <strong>IMDB:</strong> <a href="@Model.Movie.IMDBLink" target="_blank">IMDB Link</a> <br />
-    <strong>Poster:</strong> <img src="@Model.Movie.Poster" alt="@Model.Movie.Title Poster" />
+    <strong>Poster:</strong> <img src="@Model.Movie.Poster" alt="@Model.Movie.Title Poster" class="img-thumbnail" />
 </p>
 
 <h2>Actors</h2>
 <ul>
     @foreach (var actor in Model.Actors)
     {
-        <li>@actor.Name</li>
+        <li><a asp-action="Details" asp-route-id="@actor.Id">@actor.Name</a></li>
     }
 </ul>
+
 
 <h2>AI Generated Reviews</h2>
 <table class="table">
@@ -37,6 +38,7 @@
 
 <h3>Overall Sentiment: @Model.OverallSentiment</h3>
 
+<div id="reviewsContainer"></div>
 <div>
     <a asp-action="Edit" asp-route-id="@Model.Movie.Id" class="btn btn-warning">Edit</a> |
     <a asp-action="Index" class="btn btn-secondary">Back to List</a>

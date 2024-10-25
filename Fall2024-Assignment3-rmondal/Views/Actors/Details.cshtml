@@ -1,43 +1,49 @@
 ﻿@model Fall2024_Assignment3_rmondal.ViewModels.ActorDetailsViewModel
 
-<h1>@Model.Actor.Name</h1>
-<p>
-    <strong>Age:</strong> @Model.Actor.Age <br />
-    <strong>Gender:</strong> @Model.Actor.Gender <br />
-    <strong>IMDB:</strong> <a href="@Model.Actor.IMDBLink" target="_blank">IMDB Link</a> <br />
-    <strong>Photo:</strong> <img src="@Model.Actor.Photo" alt="@Model.Actor.Name Photo" />
-</p>
+@{
+    ViewData["Title"] = "Actor Details";
+}
 
-<h2>Movies</h2>
-<ul>
-    @foreach (var movie in Model.Movies)
-    {
-        <li>@movie.Title</li>
-    }
-</ul>
+<div class="container">
+    <h1>@Model.Actor.Name</h1>
+    <p>
+        <strong>Age:</strong> @Model.Actor.Age <br />
+        <strong>Gender:</strong> @Model.Actor.Gender <br />
+        <strong>IMDB:</strong> <a href="@Model.Actor.IMDBLink" target="_blank">IMDB Link</a> <br />
+        <strong>Photo:</strong> <img src="@Model.Actor.Photo" alt="@Model.Actor.Name Photo" style="width: 200px; height: auto;" />
+    </p>
 
-<h2>AI Generated Tweets</h2>
-<table class="table">
-    <thead>
-        <tr>
-            <th>Tweet</th>
-            <th>Sentiment</th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var tweet in Model.Tweets)
+    <h2>Movies</h2>
+    <ul>
+        @foreach (var movie in Model.Movies)
         {
-            <tr>
-                <td>@tweet.Tweet</td>
-                <td>@tweet.Sentiment</td>
-            </tr>
+            <li>@movie.Title</li>
         }
-    </tbody>
-</table>
+    </ul>
 
-<h3>Overall Sentiment: @Model.OverallSentiment</h3>
+    <h2>AI Generated Tweets</h2>
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Tweet</th>
+                <th>Sentiment</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var tweet in Model.Tweets)
+            {
+                <tr>
+                    <td>@tweet.Text</td> <!-- Corrected property name -->
+                    <td>@tweet.Sentiment</td>
+                </tr>
+            }
+        </tbody>
+    </table>
 
-<div>
-    <a asp-action="Edit" asp-route-id="@Model.Actor.Id" class="btn btn-warning">Edit</a> |
-    <a asp-action="Index" class="btn btn-secondary">Back to List</a>
+    <h3>Overall Sentiment: @Model.OverallSentiment</h3>
+
+    <div>
+        <a asp-action="Edit" asp-route-id="@Model.Actor.Id" class="btn btn-warning">Edit</a>
+        <a asp-action="Index" class="btn btn-secondary">Back to List</a>
+    </div>
 </div>

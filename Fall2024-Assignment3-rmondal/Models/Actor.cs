@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using System.Collections.Generic;
 
 namespace Fall2024_Assignment3_rmondal.Models
 {
@@ -19,6 +20,6 @@ namespace Fall2024_Assignment3_rmondal.Models
         public string Photo { get; set; }
 
         // Navigation property for Movies
-        public List<MovieActor> MovieActors { get; set; }
+        public ICollection<MovieActor> MovieActors { get; set; }
     }
 }

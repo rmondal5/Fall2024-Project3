@@ -18,7 +18,7 @@ namespace Fall2024_Assignment3_rmondal.Services
         public OpenAIService(IConfiguration configuration)
         {
             // Correctly accessing the OpenAI API key from configuration
-            _apiKey = configuration["OpenAISettings:ApiKey"];
+            _apiKey = configuration["23c29d47e0414bd5a3c8917df023bfea"];
         }
 
         public async Task<List<ReviewModel>> GetMovieReviewsAsync(string movieTitle)

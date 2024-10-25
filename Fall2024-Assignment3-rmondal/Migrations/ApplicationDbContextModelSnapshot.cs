@@ -51,6 +51,80 @@ namespace Fall2024_Assignment3_rmondal.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Actors");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            Age = 46,
+                            Gender = "Male",
+                            IMDBLink = "https://www.imdb.com/name/nm0000138/",
+                            Name = "Leonardo DiCaprio",
+                            Photo = "https://media-cldnry.s-nbcnews.com/image/upload/t_fit-1000w,f_auto,q_auto:best/rockcms/2024-01/leonardo-dicaprio-dating-history-zz-240105-44b86e.jpg"
+                        },
+                        new
+                        {
+                            Id = 2,
+                            Age = 40,
+                            Gender = "Female",
+                            IMDBLink = "https://www.imdb.com/name/nm0000204/",
+                            Name = "Natalie Portman",
+                            Photo = "https://assets.vogue.com/photos/65e20003a49bdf770fdb9883/master/w_1920,c_limit/F001%20MD%20PARFUM%2024%20BTS%2013E_L4_RVB.jpg"
+                        },
+                        new
+                        {
+                            Id = 3,
+                            Age = 84,
+                            Gender = "Male",
+                            IMDBLink = "https://www.imdb.com/name/nm0000151/",
+                            Name = "Morgan Freeman",
+                            Photo = "https://resizing.flixster.com/xtnsozkTuUtYkGMETMLMJfgNTjs=/218x280/v2/https://resizing.flixster.com/-XZAfHZM39UwaGJIFWKAE8fS0ak=/v3/t/assets/47162_v9_bc.jpg"
+                        },
+                        new
+                        {
+                            Id = 4,
+                            Age = 72,
+                            Gender = "Male",
+                            IMDBLink = "https://www.imdb.com/name/nm0000168/",
+                            Name = "Samuel L. Jackson",
+                            Photo = "https://hips.hearstapps.com/hmg-prod/images/gettyimages-648731684.jpg?resize=1200:*.jpg"
+                        },
+                        new
+                        {
+                            Id = 5,
+                            Age = 36,
+                            Gender = "Female",
+                            IMDBLink = "https://www.imdb.com/name/nm0424060/",
+                            Name = "Scarlett Johansson",
+                            Photo = "https://www.usmagazine.com/wp-content/uploads/2023/09/Scarlett-Johansson-Emily-Ratajkowski-Says-Its-%E2%80%98Chic-to-Get-Divorced-Before-30-Here-are-10-Stars-Who-Qualify-.jpg?w=800&h=1421&crop=1&quality=40&strip=all.jpg"
+                        },
+                        new
+                        {
+                            Id = 6,
+                            Age = 65,
+                            Gender = "Male",
+                            IMDBLink = "https://www.imdb.com/name/nm0000158/",
+                            Name = "Tom Hanks",
+                            Photo = "https://www.usmagazine.com/wp-content/uploads/2023/05/Tom-Hanks-Thinks-He-Could-Star-in-Movies-Posthumously-With-AI-Technology-inline.jpg?w=800&h=1421&crop=1&quality=86&strip=all.jpg"
+                        },
+                        new
+                        {
+                            Id = 7,
+                            Age = 72,
+                            Gender = "Female",
+                            IMDBLink = "https://www.imdb.com/name/nm0000658/",
+                            Name = "Meryl Streep",
+                            Photo = "https://people.com/thmb/TWCf8YJqiXi2tEVM4EqlS9pLN_c=/750x0/filters:no_upscale():max_bytes(150000):strip_icc():focal(2999x0:3001x2):format(webp)/peo-meryl-streep-tie-neck-blouse-tout-e83e0318d7ad4dc2bbce869c5deb852a.jpg"
+                        },
+                        new
+                        {
+                            Id = 8,
+                            Age = 56,
+                            Gender = "Male",
+                            IMDBLink = "https://www.imdb.com/name/nm0000375/",
+                            Name = "Robert Downey Jr.",
+                            Photo = "https://media-cldnry.s-nbcnews.com/image/upload/t_fit-1000w,f_auto,q_auto:best/rockcms/2023-01/robert-downey-jr-2-te-230112-5af7b1.jpg"
+                        });
                 });
 
             modelBuilder.Entity("Fall2024_Assignment3_rmondal.Models.Movie", b =>
@@ -89,6 +163,7 @@ namespace Fall2024_Assignment3_rmondal.Migrations
                             Id = 1,
                             Genre = "Sci-Fi",
                             IMDBLink = "https://www.imdb.com/title/tt1375666/",
+                            Poster = "https://i.ebayimg.com/images/g/f6EAAOSwk5FUwoOs/s-l1600.jpg",
                             Title = "Inception",
                             Year = 2010
                         },
@@ -97,12 +172,31 @@ namespace Fall2024_Assignment3_rmondal.Migrations
                             Id = 2,
                             Genre = "Action",
                             IMDBLink = "https://www.imdb.com/title/tt0133093/",
+                            Poster = "https://i.ebayimg.com/images/g/tD4AAOSw31JfmYLd/s-l1600.jpg",
                             Title = "The Matrix",
                             Year = 1999
+                        },
+                        new
+                        {
+                            Id = 3,
+                            Genre = "Drama",
+                            IMDBLink = "https://www.imdb.com/title/tt0111161/",
+                            Poster = "https://www.originalfilmart.com/cdn/shop/products/shawshank_redemption_1994_netherlands_original_film_art_5000x.jpg?v=1572559869.jpg",
+                            Title = "The Shawshank Redemption",
+                            Year = 1994
+                        },
+                        new
+                        {
+                            Id = 4,
+                            Genre = "Crime",
+                            IMDBLink = "https://www.imdb.com/title/tt0110912/",
+                            Poster = "https://m.media-amazon.com/images/I/71wPS3A1EYL._AC_UF1000,1000_QL80_.jpg",
+                            Title = "Pulp Fiction",
+                            Year = 1994
                         });
                 });
 
-            modelBuilder.Entity("MovieActor", b =>
+            modelBuilder.Entity("Fall2024_Assignment3_rmondal.Models.MovieActor", b =>
                 {
                     b.Property<int>("MovieId")
                         .HasColumnType("int");
@@ -115,9 +209,31 @@ namespace Fall2024_Assignment3_rmondal.Migrations
                     b.HasIndex("ActorId");
 
                     b.ToTable("MovieActors");
+
+                    b.HasData(
+                        new
+                        {
+                            MovieId = 1,
+                            ActorId = 1
+                        },
+                        new
+                        {
+                            MovieId = 2,
+                            ActorId = 2
+                        },
+                        new
+                        {
+                            MovieId = 3,
+                            ActorId = 3
+                        },
+                        new
+                        {
+                            MovieId = 4,
+                            ActorId = 4
+                        });
                 });
 
-            modelBuilder.Entity("MovieActor", b =>
+            modelBuilder.Entity("Fall2024_Assignment3_rmondal.Models.MovieActor", b =>
                 {
                     b.HasOne("Fall2024_Assignment3_rmondal.Models.Actor", "Actor")
                         .WithMany("MovieActors")
