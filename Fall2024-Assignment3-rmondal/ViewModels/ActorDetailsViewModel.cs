@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using Fall2024_Assignment3_rmondal.Models;
+using Fall2024_Assignment3_rmondal.Services;
 
 namespace Fall2024_Assignment3_rmondal.ViewModels
 {
@@ -7,14 +8,13 @@ namespace Fall2024_Assignment3_rmondal.ViewModels
     {
         public Actor Actor { get; set; }
         public List<Movie> Movies { get; set; }
-        public List<TweetSentiment> Tweets { get; set; } // Ensure this matches the type returned by GetAITweets
+        public List<TweetViewModel> Tweets { get; set; }
         public string OverallSentiment { get; set; }
     }
 
-    public class TweetSentiment
+    public class TweetViewModel
     {
-        public string Text { get; set; }
+        public string Content { get; set; }
         public string Sentiment { get; set; }
     }
-
 }

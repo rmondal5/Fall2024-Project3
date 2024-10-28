@@ -4,82 +4,133 @@ using System.Text;
 using Microsoft.Extensions.Configuration;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
-using System.Collections.Generic; // For List<T>
-using System.Linq; // For Select
-using System.Threading.Tasks; // For async Task
-
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
+using Microsoft.Extensions.Options;
+using Fall2024_Assignment3_rmondal.ViewModels;
 
 namespace Fall2024_Assignment3_rmondal.Services
 {
     public class OpenAIService
     {
+        private readonly string _endpoint;
         private readonly string _apiKey;
+        private readonly string _deploymentName;
+        private readonly string _apiVersion;
 
-        public OpenAIService(IConfiguration configuration)
+        public OpenAIService(IOptions<AzureOpenAISettings> settings)
         {
-            // Correctly accessing the OpenAI API key from configuration
-            _apiKey = configuration["23c29d47e0414bd5a3c8917df023bfea"];
+            _endpoint = settings.Value.Endpoint;
+            _apiKey = settings.Value.Key;
+            _deploymentName = settings.Value.DeploymentName;
+            _apiVersion = settings.Value.ApiVersion;
         }
 
-        public async Task<List<ReviewModel>> GetMovieReviewsAsync(string movieTitle)
+        public async Task<List<TweetViewModel>> GetActorTweetsAsync(string actorName, int tweetCount = 20)
         {
-            // Implement logic to call OpenAI API for generating movie reviews
-            var prompt = $"Generate 10 movie reviews for the movie titled '{movieTitle}'.";
-            var reviews = await CallOpenAIApiAsync(prompt);
+            var prompt = $"Generate {tweetCount} tweets related to the actor '{actorName}'. Each tweet should be on a new line and no longer than 280 characters.";
+            var tweets = await CallAzureOpenAIApiAsync(prompt);
 
-            return reviews.Select(review => new ReviewModel { Content = review }).ToList();
+            var tweetViewModels = new List<TweetViewModel>();
+            foreach (var tweet in tweets.Take(tweetCount))
+            {
+                var sentiment = await AnalyzeSentimentAsync(tweet);
+                tweetViewModels.Add(new TweetViewModel { Content = tweet.Trim(), Sentiment = sentiment });
+            }
+
+            return tweetViewModels;
         }
 
-        public async Task<List<TweetModel>> GetActorTweetsAsync(string actorName)
+        public async Task<List<MovieReviewViewModel>> GetMovieReviewsAsync(string movieTitle, int reviewCount = 10)
         {
-            // Implement logic to call OpenAI API for generating tweets related to the actor
-            var prompt = $"Generate 20 tweets related to the actor '{actorName}'.";
-            var tweets = await CallOpenAIApiAsync(prompt);
+            var prompt = $"Generate {reviewCount} reviews for the movie '{movieTitle}'. Each review should be on a new line.";
+            var reviews = await CallAzureOpenAIApiAsync(prompt);
 
-            return tweets.Select(tweet => new TweetModel { Content = tweet }).ToList();
+            var reviewViewModels = new List<MovieReviewViewModel>();
+            foreach (var review in reviews.Take(reviewCount))
+            {
+                var sentiment = await AnalyzeSentimentAsync(review);
+                reviewViewModels.Add(new MovieReviewViewModel { Content = review.Trim(), Sentiment = sentiment });
+            }
+
+            return reviewViewModels;
+        }
+
+        public async Task<string> GetOverallSentimentAsync(List<MovieReviewViewModel> reviews)
+        {
+            var sentimentPrompt = $"Analyze the overall sentiment of the following movie reviews. Respond with only 'Positive', 'Negative', or 'Neutral':\n\n{string.Join("\n", reviews.Select(r => r.Content))}";
+            var result = await CallAzureOpenAIApiAsync(sentimentPrompt);
+            return result.FirstOrDefault()?.Trim() ?? "Neutral";
+        }
+
+        private async Task<string> AnalyzeSentimentAsync(string text)
+        {
+            var prompt = $"Analyze the sentiment of the following text. Respond with only 'Positive', 'Negative', or 'Neutral':\n\n{text}";
+            var result = await CallAzureOpenAIApiAsync(prompt);
+            return result.FirstOrDefault()?.Trim() ?? "Neutral";
+        }
+
+        public async Task<string> GetOverallSentimentAsync(List<TweetViewModel> tweets)
+        {
+            var sentimentPrompt = $"Analyze the overall sentiment of the following tweets. Respond with only 'Positive', 'Negative', or 'Neutral':\n\n{string.Join("\n", tweets.Select(t => t.Content))}";
+            var result = await CallAzureOpenAIApiAsync(sentimentPrompt);
+            return result.FirstOrDefault()?.Trim() ?? "Neutral";
         }
 
         public async Task<SentimentAnalysisModel> GetSentimentAnalysisAsync(List<string> texts)
         {
-            // Implement logic to analyze the sentiment of the reviews or tweets
-            var sentimentPrompt = $"Analyze the sentiment of the following texts: {string.Join(" ", texts)}.";
-            var result = await CallOpenAIApiAsync(sentimentPrompt);
+            var sentimentPrompt = $"Analyze the overall sentiment of the following texts. Respond with only 'Positive', 'Negative', or 'Neutral':\n\n{string.Join("\n", texts)}";
+            var result = await CallAzureOpenAIApiAsync(sentimentPrompt);
 
-            // Assume OpenAI API returns sentiment and score
+            var sentiment = result.FirstOrDefault()?.Trim();
             return new SentimentAnalysisModel
             {
-                Sentiment = result.FirstOrDefault(), // Mocked sentiment (e.g., "positive", "negative", "neutral")
-                Score = 0.85f // Mocked score (can be any score or return from OpenAI)
+                Sentiment = sentiment ?? "Neutral"
             };
         }
 
-        private async Task<List<string>> CallOpenAIApiAsync(string prompt)
+        private async Task<List<string>> CallAzureOpenAIApiAsync(string prompt)
         {
             using (var client = new HttpClient())
             {
-                client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", _apiKey);
+                client.DefaultRequestHeaders.Add("api-key", _apiKey);
 
                 var requestContent = new StringContent(JsonConvert.SerializeObject(new
                 {
-                    model = "text-davinci-003", // Specify the model you want to use
-                    prompt = prompt,
-                    max_tokens = 100,
+                    messages = new[]
+                    {
+                        new { role = "system", content = "You are a helpful assistant." },
+                        new { role = "user", content = prompt }
+                    },
+                    max_tokens = 1000,
                     temperature = 0.7
                 }), Encoding.UTF8, "application/json");
 
-                var response = await client.PostAsync("https://api.openai.com/v1/completions", requestContent);
+                var response = await client.PostAsync($"{_endpoint}openai/deployments/{_deploymentName}/chat/completions?api-version=2024-02-15-preview", requestContent);
 
                 if (!response.IsSuccessStatusCode)
                 {
-                    throw new Exception($"Error calling OpenAI API: {response.ReasonPhrase}");
+                    var errorContent = await response.Content.ReadAsStringAsync();
+                    throw new Exception($"Error calling Azure OpenAI API: {response.StatusCode} - {response.ReasonPhrase}\nError details: {errorContent}");
                 }
 
                 var responseBody = await response.Content.ReadAsStringAsync();
-                dynamic result = JsonConvert.DeserializeObject(responseBody);
-                var choices = result.choices as JArray;
+                var result = JsonConvert.DeserializeObject<JObject>(responseBody);
+                var choices = result["choices"] as JArray;
 
-                return choices.Select(choice => (string)choice["text"]).ToList();
+                return choices.Select(choice => choice["message"]["content"].ToString()).ToList();
             }
         }
+    }
+
+    public class TweetModel
+    {
+        public string Content { get; set; }
+    }
+
+    public class SentimentAnalysisModel
+    {
+        public string Sentiment { get; set; }
     }
 }

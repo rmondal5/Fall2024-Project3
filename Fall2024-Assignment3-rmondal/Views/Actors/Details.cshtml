@@ -5,45 +5,78 @@
 }
 
 <div class="container">
-    <h1>@Model.Actor.Name</h1>
-    <p>
-        <strong>Age:</strong> @Model.Actor.Age <br />
-        <strong>Gender:</strong> @Model.Actor.Gender <br />
-        <strong>IMDB:</strong> <a href="@Model.Actor.IMDBLink" target="_blank">IMDB Link</a> <br />
-        <strong>Photo:</strong> <img src="@Model.Actor.Photo" alt="@Model.Actor.Name Photo" style="width: 200px; height: auto;" />
-    </p>
+    @if (Model != null && Model.Actor != null)
+    {
+        <h1>@Model.Actor.Name</h1>
+        <div class="row">
+            <div class="col-md-4">
+                <img src="@Model.Actor.Photo" alt="@Model.Actor.Name Photo" class="img-fluid" />
+            </div>
+            <div class="col-md-8">
+                <p>
+                    <strong>Age:</strong> <span class="text-info">@Model.Actor.Age</span><br />
+                    <strong>Gender:</strong> <span class="text-info">@Model.Actor.Gender</span><br />
+                    <strong>IMDB:</strong> <a href="@Model.Actor.IMDBLink" target="_blank">IMDB Link</a><br />
+                    <strong>Movies:</strong>
+                    @if (Model.Movies != null && Model.Movies.Any())
+                    {
+                        @foreach (var movie in Model.Movies)
+                        {
+                            <span class="text-info">
+                                <a asp-controller="Movies" asp-action="Details" asp-route-id="@movie.Id">@movie.Title</a>@(movie != Model.Movies.Last() ? ", " : "")
+                            </span>
+                        }
+                    }
+                    else
+                    {
+                        <span>No movies found for this actor.</span>
+                    }
+                </p>
+            </div>
+        </div>
 
-    <h2>Movies</h2>
-    <ul>
-        @foreach (var movie in Model.Movies)
+        <h2>AI Generated Tweets</h2>
+        <h3>Overall Sentiment: @Model.OverallSentiment</h3>
+
+        @if (Model.Tweets != null && Model.Tweets.Any())
         {
-            <li>@movie.Title</li>
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th>Tweet</th>
+                        <th>Sentiment</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var tweet in Model.Tweets)
+                    {
+                        <tr>
+                            <td>@tweet.Content</td>
+                            <td>@tweet.Sentiment</td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
         }
-    </ul>
+        else
+        {
+            <p>No tweets generated for this actor.</p>
+        }
 
-    <h2>AI Generated Tweets</h2>
-    <table class="table table-striped">
-        <thead>
-            <tr>
-                <th>Tweet</th>
-                <th>Sentiment</th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach (var tweet in Model.Tweets)
-            {
-                <tr>
-                    <td>@tweet.Text</td> <!-- Corrected property name -->
-                    <td>@tweet.Sentiment</td>
-                </tr>
-            }
-        </tbody>
-    </table>
+        @if (!string.IsNullOrEmpty(ViewData["AIError"] as string))
+        {
+            <div class="alert alert-warning">
+                @ViewData["AIError"]
+            </div>
+        }
 
-    <h3>Overall Sentiment: @Model.OverallSentiment</h3>
-
-    <div>
-        <a asp-action="Edit" asp-route-id="@Model.Actor.Id" class="btn btn-warning">Edit</a>
-        <a asp-action="Index" class="btn btn-secondary">Back to List</a>
-    </div>
+        <div>
+            <a asp-action="Edit" asp-route-id="@Model.Actor.Id" class="btn btn-warning">Edit</a>
+            <a asp-action="Index" class="btn btn-secondary">Back to List</a>
+        </div>
+    }
+    else
+    {
+        <p>Actor details not available.</p>
+    }
 </div>

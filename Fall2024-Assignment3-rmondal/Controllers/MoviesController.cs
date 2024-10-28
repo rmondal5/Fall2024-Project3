@@ -1,20 +1,29 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Fall2024_Assignment3_rmondal.ViewModels;
+using Fall2024_Assignment3_rmondal.Models;
+using Fall2024_Assignment3_rmondal.Services;
+using System;
+using Fall2024_Assignment3_rmondal.Data;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Fall2024_Assignment3_rmondal.Models;
+using Microsoft.Extensions.Logging;
+//using Microsoft.AspNetCore.Authorization;
 
 namespace Fall2024_Assignment3_rmondal.Controllers
 {
     public class MoviesController : Controller
     {
         private readonly ApplicationDbContext _context;
+        private readonly OpenAIService _openAIService;
+        private readonly ILogger<MoviesController> _logger;
 
-        public MoviesController(ApplicationDbContext context)
+        public MoviesController(ApplicationDbContext context, OpenAIService openAIService, ILogger<MoviesController> logger)
         {
             _context = context;
+            _openAIService = openAIService;
+            _logger = logger;
         }
 
         // GET: Movie
@@ -24,6 +33,7 @@ namespace Fall2024_Assignment3_rmondal.Controllers
         }
 
         // GET: Movie/Create
+        //[Authorize]
         public IActionResult Create()
         {
             return View();
@@ -32,6 +42,7 @@ namespace Fall2024_Assignment3_rmondal.Controllers
         // POST: Movie/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
+        //[Authorize]
         public async Task<IActionResult> Create(Movie movie)
         {
             if (ModelState.IsValid)
@@ -55,17 +66,30 @@ namespace Fall2024_Assignment3_rmondal.Controllers
 
             if (movie == null) return NotFound();
 
-            // Prepare view model (if needed)
             var viewModel = new MovieDetailsViewModel
             {
                 Movie = movie,
-                Actors = movie.MovieActors.Select(ma => ma.Actor).ToList()
+                Actors = movie.MovieActors.Select(ma => ma.Actor).ToList(),
+                Reviews = new List<MovieReviewViewModel>(),
+                OverallSentiment = "Neutral"
             };
+
+            try
+            {
+                viewModel.Reviews = await _openAIService.GetMovieReviewsAsync(movie.Title, 10);
+                viewModel.OverallSentiment = await _openAIService.GetOverallSentimentAsync(viewModel.Reviews);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error occurred while retrieving AI-generated content for movie {MovieTitle}", movie.Title);
+                ViewData["AIError"] = "Unable to retrieve AI-generated content at this time.";
+            }
 
             return View(viewModel);
         }
 
         // GET: Movie/Edit/5
+        //[Authorize]
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null) return NotFound();
@@ -79,6 +103,7 @@ namespace Fall2024_Assignment3_rmondal.Controllers
         // POST: Movie/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
+        //[Authorize]
         public async Task<IActionResult> Edit(int id, [Bind("Id,Title,IMDBLink,Genre,Year,Poster")] Movie movie)
         {
             if (id != movie.Id) return NotFound();
@@ -101,6 +126,7 @@ namespace Fall2024_Assignment3_rmondal.Controllers
         }
 
         // GET: Movie/Delete/5
+        //[Authorize]
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null) return NotFound();
@@ -115,11 +141,15 @@ namespace Fall2024_Assignment3_rmondal.Controllers
         // POST: Movie/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
+        //[Authorize]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
             var movie = await _context.Movies.FindAsync(id);
-            _context.Movies.Remove(movie);
-            await _context.SaveChangesAsync();
+            if (movie != null)
+            {
+                _context.Movies.Remove(movie);
+                await _context.SaveChangesAsync();
+            }
             return RedirectToAction(nameof(Index));
         }
 

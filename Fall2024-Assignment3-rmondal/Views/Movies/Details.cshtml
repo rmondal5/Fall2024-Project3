@@ -1,45 +1,68 @@
 ﻿@model Fall2024_Assignment3_rmondal.ViewModels.MovieDetailsViewModel
 
-<h1>@Model.Movie.Title</h1>
-<p>
-    <strong>Genre:</strong> @Model.Movie.Genre <br />
-    <strong>Year:</strong> @Model.Movie.Year <br />
-    <strong>IMDB:</strong> <a href="@Model.Movie.IMDBLink" target="_blank">IMDB Link</a> <br />
-    <strong>Poster:</strong> <img src="@Model.Movie.Poster" alt="@Model.Movie.Title Poster" class="img-thumbnail" />
-</p>
+@{
+    ViewData["Title"] = "Movie Details";
+}
 
-<h2>Actors</h2>
-<ul>
-    @foreach (var actor in Model.Actors)
+<div class="container">
+    <h1>@Model.Movie.Title</h1>
+    <div class="row">
+        <div class="col-md-4">
+            <img src="@Model.Movie.Poster" alt="@Model.Movie.Title Poster" class="img-fluid" />
+        </div>
+        <div class="col-md-8">
+            <p>
+                <strong>Genre:</strong> <span class="text-info">@Model.Movie.Genre</span><br />
+                <strong>Year:</strong> <span class="text-info">@Model.Movie.Year</span><br />
+                <strong>IMDB:</strong> <a href="@Model.Movie.IMDBLink" target="_blank">IMDB Link</a><br />
+                <strong>Actors:</strong>
+                @foreach (var actor in Model.Actors)
+                {
+                    <span class="text-info">
+                        <a asp-controller="Actors" asp-action="Details" asp-route-id="@actor.Id">@actor.Name</a>@(actor != Model.Actors.Last() ? ", " : "")
+                    </span>
+                }
+            </p>
+        </div>
+    </div>
+
+    <h2>AI Generated Reviews</h2>
+    <h2>Overall Sentiment: @Model.OverallSentiment</h2>
+
+    @if (Model.Reviews != null && Model.Reviews.Any())
     {
-        <li><a asp-action="Details" asp-route-id="@actor.Id">@actor.Name</a></li>
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>Review</th>
+                    <th>Sentiment</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var review in Model.Reviews)
+                {
+                    <tr>
+                        <td>@review.Content</td>
+                        <td>@review.Sentiment</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
     }
-</ul>
+    else
+    {
+        <p>No AI-generated reviews available at this time.</p>
+    }
 
+    @if (!string.IsNullOrEmpty(ViewData["AIError"] as string))
+    {
+        <div class="alert alert-warning">
+            @ViewData["AIError"]
+        </div>
+    }
 
-<h2>AI Generated Reviews</h2>
-<table class="table">
-    <thead>
-        <tr>
-            <th>Review</th>
-            <th>Sentiment</th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var review in Model.Reviews)
-        {
-            <tr>
-                <td>@review.Content</td>
-                <td>@review.Sentiment</td>
-            </tr>
-        }
-    </tbody>
-</table>
-
-<h3>Overall Sentiment: @Model.OverallSentiment</h3>
-
-<div id="reviewsContainer"></div>
-<div>
-    <a asp-action="Edit" asp-route-id="@Model.Movie.Id" class="btn btn-warning">Edit</a> |
-    <a asp-action="Index" class="btn btn-secondary">Back to List</a>
+    <div>
+        <a asp-action="Edit" asp-route-id="@Model.Movie.Id" class="btn btn-warning">Edit</a>
+        <a asp-action="Index" class="btn btn-secondary">Back to List</a>
+    </div>
 </div>

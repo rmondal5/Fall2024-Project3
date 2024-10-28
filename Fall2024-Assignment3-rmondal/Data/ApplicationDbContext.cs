@@ -1,9 +1,11 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore;
 using Fall2024_Assignment3_rmondal.Models;
 
 namespace Fall2024_Assignment3_rmondal.Data
 {
-    public class ApplicationDbContext : DbContext
+    public class ApplicationDbContext : IdentityDbContext<IdentityUser>
     {
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : base(options) { }
 
@@ -27,7 +29,7 @@ namespace Fall2024_Assignment3_rmondal.Data
                 .WithMany(a => a.MovieActors)
                 .HasForeignKey(ma => ma.ActorId);
 
-            // Seed movies with required IMDBLink
+            // Seed movies
             modelBuilder.Entity<Movie>().HasData(
                 new Movie
                 {
@@ -151,7 +153,6 @@ namespace Fall2024_Assignment3_rmondal.Data
                 new MovieActor { MovieId = 4, ActorId = 4 }  // Samuel L. Jackson in Pulp Fiction
             );
 
-            // Call base.OnModelCreating to ensure any EF Core-specific configurations are applied
             base.OnModelCreating(modelBuilder);
         }
     }
