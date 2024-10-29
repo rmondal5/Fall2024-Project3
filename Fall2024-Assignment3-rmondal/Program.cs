@@ -19,7 +19,7 @@ if (string.IsNullOrEmpty(connectionString))
 {
     throw new InvalidOperationException("Connection string 'DefaultConnection' not found.");
 }
-connectionString = connectionString.Replace("{your_password}", dbPassword);
+connectionString = connectionString.Replace("{Plantain}", dbPassword);
 
 // Add DbContext with SQL Server
 builder.Services.AddDbContext<Fall2024_Assignment3_rmondal.Data.ApplicationDbContext>(options =>
