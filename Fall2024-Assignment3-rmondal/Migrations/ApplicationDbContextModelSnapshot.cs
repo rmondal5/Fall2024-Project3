@@ -66,11 +66,11 @@ namespace Fall2024_Assignment3_rmondal.Migrations
                         new
                         {
                             Id = 2,
-                            Age = 40,
-                            Gender = "Female",
-                            IMDBLink = "https://www.imdb.com/name/nm0000204/",
-                            Name = "Natalie Portman",
-                            Photo = "https://assets.vogue.com/photos/65e20003a49bdf770fdb9883/master/w_1920,c_limit/F001%20MD%20PARFUM%2024%20BTS%2013E_L4_RVB.jpg"
+                            Age = 60,
+                            Gender = "Male",
+                            IMDBLink = "https://www.imdb.com/name/nm0000206/",
+                            Name = "Keanu Reeves",
+                            Photo = "https://encrypted-tbn3.gstatic.com/images?q=tbn:ANd9GcS9Vxd2hrHwjpVZZ8aPB-W-r2dcL665QxjN2nByzfLIOrxmcUSS"
                         },
                         new
                         {
@@ -93,38 +93,38 @@ namespace Fall2024_Assignment3_rmondal.Migrations
                         new
                         {
                             Id = 5,
-                            Age = 36,
+                            Age = 57,
                             Gender = "Female",
-                            IMDBLink = "https://www.imdb.com/name/nm0424060/",
-                            Name = "Scarlett Johansson",
-                            Photo = "https://www.usmagazine.com/wp-content/uploads/2023/09/Scarlett-Johansson-Emily-Ratajkowski-Says-Its-%E2%80%98Chic-to-Get-Divorced-Before-30-Here-are-10-Stars-Who-Qualify-.jpg?w=800&h=1421&crop=1&quality=40&strip=all.jpg"
+                            IMDBLink = "https://www.imdb.com/name/nm0005251/",
+                            Name = "Carrie-Anne Moss",
+                            Photo = "https://m.media-amazon.com/images/M/MV5BMTYxMjgwNzEwOF5BMl5BanBnXkFtZTcwNTQ0NzI5Ng@@._V1_.jpg"
                         },
                         new
                         {
                             Id = 6,
-                            Age = 65,
+                            Age = 48,
                             Gender = "Male",
-                            IMDBLink = "https://www.imdb.com/name/nm0000158/",
-                            Name = "Tom Hanks",
-                            Photo = "https://www.usmagazine.com/wp-content/uploads/2023/05/Tom-Hanks-Thinks-He-Could-Star-in-Movies-Posthumously-With-AI-Technology-inline.jpg?w=800&h=1421&crop=1&quality=86&strip=all.jpg"
+                            IMDBLink = "https://www.imdb.com/name/nm0614165/",
+                            Name = "Cillian Murphy",
+                            Photo = "https://resizing.flixster.com/EYqSJyq1ZhI9IJ16Wpv_WwlroEY=/fit-in/705x460/v2/https://resizing.flixster.com/-XZAfHZM39UwaGJIFWKAE8fS0ak=/v3/t/assets/236083_v9_bd.jpg"
                         },
                         new
                         {
                             Id = 7,
-                            Age = 72,
-                            Gender = "Female",
-                            IMDBLink = "https://www.imdb.com/name/nm0000658/",
-                            Name = "Meryl Streep",
-                            Photo = "https://people.com/thmb/TWCf8YJqiXi2tEVM4EqlS9pLN_c=/750x0/filters:no_upscale():max_bytes(150000):strip_icc():focal(2999x0:3001x2):format(webp)/peo-meryl-streep-tie-neck-blouse-tout-e83e0318d7ad4dc2bbce869c5deb852a.jpg"
+                            Age = 66,
+                            Gender = "Male",
+                            IMDBLink = "https://www.imdb.com/name/nm0000209/",
+                            Name = "Tim Robbins",
+                            Photo = "https://resizing.flixster.com/-XZAfHZM39UwaGJIFWKAE8fS0ak=/v3/t/assets/1473_v9_bc.jpg"
                         },
                         new
                         {
                             Id = 8,
-                            Age = 56,
-                            Gender = "Male",
-                            IMDBLink = "https://www.imdb.com/name/nm0000375/",
-                            Name = "Robert Downey Jr.",
-                            Photo = "https://media-cldnry.s-nbcnews.com/image/upload/t_fit-1000w,f_auto,q_auto:best/rockcms/2023-01/robert-downey-jr-2-te-230112-5af7b1.jpg"
+                            Age = 55,
+                            Gender = "Female",
+                            IMDBLink = "https://www.imdb.com/name/nm0000235/",
+                            Name = "Uma Thurman",
+                            Photo = "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT4Cd8BrnUS8RuD1DFuhr_4uVGx4yFHgmQXAath2gBjDK3rNyIv"
                         });
                 });
 
@@ -219,8 +219,18 @@ namespace Fall2024_Assignment3_rmondal.Migrations
                         },
                         new
                         {
+                            MovieId = 1,
+                            ActorId = 6
+                        },
+                        new
+                        {
                             MovieId = 2,
                             ActorId = 2
+                        },
+                        new
+                        {
+                            MovieId = 2,
+                            ActorId = 5
                         },
                         new
                         {
@@ -229,8 +239,18 @@ namespace Fall2024_Assignment3_rmondal.Migrations
                         },
                         new
                         {
+                            MovieId = 3,
+                            ActorId = 7
+                        },
+                        new
+                        {
                             MovieId = 4,
                             ActorId = 4
+                        },
+                        new
+                        {
+                            MovieId = 4,
+                            ActorId = 8
                         });
                 });
 

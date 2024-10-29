@@ -10,13 +10,16 @@ namespace Fall2024_Assignment3_rmondal.Models
         [Required]
         public string Name { get; set; }
 
+        [Required]
         public string Gender { get; set; }
 
+        [Range(1, 120)]
         public int Age { get; set; }
 
         [Url]
         public string IMDBLink { get; set; }
 
+        [Url]
         public string Photo { get; set; }
 
         // Navigation property for Movies

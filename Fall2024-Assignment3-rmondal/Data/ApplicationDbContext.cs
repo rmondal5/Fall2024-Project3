@@ -83,11 +83,11 @@ namespace Fall2024_Assignment3_rmondal.Data
                 new Actor
                 {
                     Id = 2,
-                    Name = "Natalie Portman",
-                    Gender = "Female",
-                    Age = 40,
-                    IMDBLink = "https://www.imdb.com/name/nm0000204/",
-                    Photo = "https://assets.vogue.com/photos/65e20003a49bdf770fdb9883/master/w_1920,c_limit/F001%20MD%20PARFUM%2024%20BTS%2013E_L4_RVB.jpg"
+                    Name = "Keanu Reeves",
+                    Gender = "Male",
+                    Age = 60,
+                    IMDBLink = "https://www.imdb.com/name/nm0000206/",
+                    Photo = "https://encrypted-tbn3.gstatic.com/images?q=tbn:ANd9GcS9Vxd2hrHwjpVZZ8aPB-W-r2dcL665QxjN2nByzfLIOrxmcUSS"
                 },
                 new Actor
                 {
@@ -110,47 +110,51 @@ namespace Fall2024_Assignment3_rmondal.Data
                 new Actor
                 {
                     Id = 5,
-                    Name = "Scarlett Johansson",
+                    Name = "Carrie-Anne Moss",
                     Gender = "Female",
-                    Age = 36,
-                    IMDBLink = "https://www.imdb.com/name/nm0424060/",
-                    Photo = "https://www.usmagazine.com/wp-content/uploads/2023/09/Scarlett-Johansson-Emily-Ratajkowski-Says-Its-%E2%80%98Chic-to-Get-Divorced-Before-30-Here-are-10-Stars-Who-Qualify-.jpg?w=800&h=1421&crop=1&quality=40&strip=all.jpg"
+                    Age = 57,
+                    IMDBLink = "https://www.imdb.com/name/nm0005251/",
+                    Photo = "https://m.media-amazon.com/images/M/MV5BMTYxMjgwNzEwOF5BMl5BanBnXkFtZTcwNTQ0NzI5Ng@@._V1_.jpg"
                 },
                 new Actor
                 {
                     Id = 6,
-                    Name = "Tom Hanks",
+                    Name = "Cillian Murphy",
                     Gender = "Male",
-                    Age = 65,
-                    IMDBLink = "https://www.imdb.com/name/nm0000158/",
-                    Photo = "https://www.usmagazine.com/wp-content/uploads/2023/05/Tom-Hanks-Thinks-He-Could-Star-in-Movies-Posthumously-With-AI-Technology-inline.jpg?w=800&h=1421&crop=1&quality=86&strip=all.jpg"
+                    Age = 48,
+                    IMDBLink = "https://www.imdb.com/name/nm0614165/",
+                    Photo = "https://resizing.flixster.com/EYqSJyq1ZhI9IJ16Wpv_WwlroEY=/fit-in/705x460/v2/https://resizing.flixster.com/-XZAfHZM39UwaGJIFWKAE8fS0ak=/v3/t/assets/236083_v9_bd.jpg"
                 },
                 new Actor
                 {
                     Id = 7,
-                    Name = "Meryl Streep",
-                    Gender = "Female",
-                    Age = 72,
-                    IMDBLink = "https://www.imdb.com/name/nm0000658/",
-                    Photo = "https://people.com/thmb/TWCf8YJqiXi2tEVM4EqlS9pLN_c=/750x0/filters:no_upscale():max_bytes(150000):strip_icc():focal(2999x0:3001x2):format(webp)/peo-meryl-streep-tie-neck-blouse-tout-e83e0318d7ad4dc2bbce869c5deb852a.jpg"
+                    Name = "Tim Robbins",
+                    Gender = "Male",
+                    Age = 66,
+                    IMDBLink = "https://www.imdb.com/name/nm0000209/",
+                    Photo = "https://resizing.flixster.com/-XZAfHZM39UwaGJIFWKAE8fS0ak=/v3/t/assets/1473_v9_bc.jpg"
                 },
                 new Actor
                 {
                     Id = 8,
-                    Name = "Robert Downey Jr.",
-                    Gender = "Male",
-                    Age = 56,
-                    IMDBLink = "https://www.imdb.com/name/nm0000375/",
-                    Photo = "https://media-cldnry.s-nbcnews.com/image/upload/t_fit-1000w,f_auto,q_auto:best/rockcms/2023-01/robert-downey-jr-2-te-230112-5af7b1.jpg"
+                    Name = "Uma Thurman",
+                    Gender = "Female",
+                    Age = 55,
+                    IMDBLink = "https://www.imdb.com/name/nm0000235/",
+                    Photo = "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT4Cd8BrnUS8RuD1DFuhr_4uVGx4yFHgmQXAath2gBjDK3rNyIv"
                 }
             );
 
             // Add sample MovieActor relationships
             modelBuilder.Entity<MovieActor>().HasData(
                 new MovieActor { MovieId = 1, ActorId = 1 }, // Leonardo DiCaprio in Inception
+                new MovieActor { MovieId = 1, ActorId = 6 },
                 new MovieActor { MovieId = 2, ActorId = 2 }, // Natalie Portman in The Matrix
+                new MovieActor { MovieId = 2, ActorId = 5 },
                 new MovieActor { MovieId = 3, ActorId = 3 }, // Morgan Freeman in The Shawshank Redemption
-                new MovieActor { MovieId = 4, ActorId = 4 }  // Samuel L. Jackson in Pulp Fiction
+                new MovieActor { MovieId = 3, ActorId = 7 },
+                new MovieActor { MovieId = 4, ActorId = 4 },  // Samuel L. Jackson in Pulp Fiction
+                new MovieActor { MovieId = 4, ActorId = 8 }
             );
 
             base.OnModelCreating(modelBuilder);

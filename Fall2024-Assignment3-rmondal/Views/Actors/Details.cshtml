@@ -36,7 +36,6 @@
         </div>
 
         <h2>AI Generated Tweets</h2>
-        <h3>Overall Sentiment: @Model.OverallSentiment</h3>
 
         @if (Model.Tweets != null && Model.Tweets.Any())
         {
@@ -69,6 +68,7 @@
                 @ViewData["AIError"]
             </div>
         }
+        <h2>Overall Sentiment: @Model.OverallSentiment</h2>
 
         <div>
             <a asp-action="Edit" asp-route-id="@Model.Actor.Id" class="btn btn-warning">Edit</a>

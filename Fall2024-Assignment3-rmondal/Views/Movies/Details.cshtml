@@ -27,7 +27,6 @@
     </div>
 
     <h2>AI Generated Reviews</h2>
-    <h2>Overall Sentiment: @Model.OverallSentiment</h2>
 
     @if (Model.Reviews != null && Model.Reviews.Any())
     {
@@ -60,7 +59,7 @@
             @ViewData["AIError"]
         </div>
     }
-
+    <h2>Overall Sentiment: @Model.OverallSentiment</h2>
     <div>
         <a asp-action="Edit" asp-route-id="@Model.Movie.Id" class="btn btn-warning">Edit</a>
         <a asp-action="Index" class="btn btn-secondary">Back to List</a>
